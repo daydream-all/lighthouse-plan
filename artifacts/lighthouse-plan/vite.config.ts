@@ -5,21 +5,24 @@ import { defineConfig } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
+// PORT is required for dev/preview server, optional for CI build
 const rawPort = process.env.PORT;
+const isBuildOnly = process.argv.includes('build');
 
-if (!rawPort) {
+if (!rawPort && !isBuildOnly) {
   throw new Error(
     'PORT environment variable is required but was not provided.',
   );
 }
 
-const port = Number(rawPort);
+const port = Number(rawPort ?? '3000');
 
 if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const basePath = process.env.BASE_PATH;
+// BASE_PATH defaults to '/lighthouse-plan/' for GitHub Pages CI builds
+const basePath = process.env.BASE_PATH ?? (isBuildOnly ? '/lighthouse-plan/' : undefined);
 
 if (!basePath) {
   throw new Error(
