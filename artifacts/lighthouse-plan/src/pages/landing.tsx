@@ -89,46 +89,214 @@ export default function LandingPage() {
           </div>
           
           <div className="flex-1 relative w-full max-w-[500px] aspect-square">
-            {/* Lighthouse Animation SVG */}
-            <div className="absolute inset-0 bg-white rounded-3xl shadow-2xl border flex items-center justify-center p-8 relative overflow-hidden">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-border to-transparent" />
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-              
-              <svg viewBox="0 0 400 400" className="w-full h-full relative z-10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Lighthouse Body */}
-                <path d="M170 320 L230 320 L210 120 L190 120 Z" fill="hsl(209, 80%, 49%)" />
-                <path d="M190 120 L210 120 L205 90 L195 90 Z" fill="#F5A623" />
-                {/* Light Dome */}
-                <path d="M195 90 C 195 80, 205 80, 205 90" fill="#fff" stroke="#F5A623" strokeWidth="4" />
-                {/* Base */}
-                <path d="M150 320 C 150 310, 250 310, 250 320 L 250 350 L 150 350 Z" fill="hsl(220, 30%, 20%)" />
-                {/* Waves */}
-                <path d="M100 340 Q 125 320, 150 340 T 200 340 T 250 340 T 300 340" stroke="#00B5C8" strokeWidth="4" strokeLinecap="round" />
-                <path d="M80 355 Q 115 335, 150 355 T 220 355 T 290 355 T 320 355" stroke="hsl(209, 80%, 49%)" strokeWidth="6" strokeLinecap="round" />
-                {/* Light Beam */}
-                <g className="animate-sweep">
-                  <path d="M200 100 L 50 0 L 350 0 Z" fill="url(#beam-gradient)" opacity="0.8" />
-                </g>
+            {/* Hero Lighthouse Illustration */}
+            <div className="absolute inset-0 rounded-3xl shadow-2xl overflow-hidden border border-blue-100">
+              <svg viewBox="0 0 480 480" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                  <linearGradient id="beam-gradient" x1="200" y1="100" x2="200" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#F5A623" stopOpacity="0.6"/>
-                    <stop offset="1" stopColor="#F5A623" stopOpacity="0"/>
+                  <radialGradient id="hero-sky" cx="50%" cy="30%" r="70%">
+                    <stop offset="0%" stopColor="#C8E8FF" />
+                    <stop offset="45%" stopColor="#5EB3F5" />
+                    <stop offset="100%" stopColor="#1A6EC2" />
+                  </radialGradient>
+                  <linearGradient id="hero-sea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#2B8FE8" />
+                    <stop offset="100%" stopColor="#0F4FA0" />
                   </linearGradient>
+                  <radialGradient id="hero-beam-c" cx="50%" cy="100%" r="100%">
+                    <stop offset="0%" stopColor="#FFFBE0" stopOpacity="0.98" />
+                    <stop offset="55%" stopColor="#FFE47A" stopOpacity="0.55" />
+                    <stop offset="100%" stopColor="#FFC845" stopOpacity="0" />
+                  </radialGradient>
+                  <radialGradient id="hero-beam-l" cx="100%" cy="100%" r="100%">
+                    <stop offset="0%" stopColor="#FFFBE0" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="#FFD060" stopOpacity="0" />
+                  </radialGradient>
+                  <radialGradient id="hero-beam-r" cx="0%" cy="100%" r="100%">
+                    <stop offset="0%" stopColor="#FFFBE0" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="#FFD060" stopOpacity="0" />
+                  </radialGradient>
+                  <radialGradient id="hero-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#FFFBE0" stopOpacity="1" />
+                    <stop offset="40%" stopColor="#FFE47A" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#FFC845" stopOpacity="0" />
+                  </radialGradient>
+                  <linearGradient id="hero-road" x1="0.5" y1="0" x2="0.5" y2="1">
+                    <stop offset="0%" stopColor="#D6EEFF" />
+                    <stop offset="60%" stopColor="#A8D4F5" />
+                    <stop offset="100%" stopColor="#7ABDE8" />
+                  </linearGradient>
+                  <linearGradient id="hero-tower" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#D8EEFF" />
+                    <stop offset="50%" stopColor="#F0F8FF" />
+                    <stop offset="100%" stopColor="#BDD8F5" />
+                  </linearGradient>
+                  <filter id="hero-glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="8" result="blur" />
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
                 </defs>
+
+                {/* Sky background */}
+                <rect width="480" height="480" fill="url(#hero-sky)" />
+
+                {/* Distant clouds */}
+                <ellipse cx="80" cy="120" rx="55" ry="18" fill="white" opacity="0.35" />
+                <ellipse cx="110" cy="110" rx="40" ry="14" fill="white" opacity="0.3" />
+                <ellipse cx="380" cy="100" rx="60" ry="20" fill="white" opacity="0.3" />
+                <ellipse cx="410" cy="90" rx="40" ry="14" fill="white" opacity="0.25" />
+
+                {/* Horizon sun glow */}
+                <ellipse cx="240" cy="270" rx="110" ry="38" fill="#FFF8D0" opacity="0.6" />
+                <ellipse cx="240" cy="270" rx="65" ry="22" fill="#FFF0A0" opacity="0.65" />
+
+                {/* City skyline silhouette */}
+                <g fill="#1558A8" opacity="0.28">
+                  <rect x="20"  y="258" width="18" height="30" />
+                  <rect x="16"  y="248" width="12" height="40" />
+                  <rect x="38"  y="262" width="14" height="26" />
+                  <rect x="54"  y="254" width="12" height="34" />
+                  <rect x="68"  y="260" width="16" height="28" />
+                  <rect x="86"  y="265" width="10" height="23" />
+                  <rect x="370" y="256" width="18" height="32" />
+                  <rect x="388" y="248" width="14" height="40" />
+                  <rect x="404" y="258" width="20" height="30" />
+                  <rect x="426" y="252" width="16" height="36" />
+                  <rect x="444" y="260" width="14" height="28" />
+                </g>
+
+                {/* Sea */}
+                <rect x="0" y="300" width="480" height="180" fill="url(#hero-sea)" />
+
+                {/* Winding path — left branch */}
+                <path d="M240 305 C 235 295, 210 285, 190 310 C 168 338, 140 370, 80 410" stroke="url(#hero-road)" strokeWidth="16" strokeLinecap="round" fill="none" opacity="0.7" />
+                {/* Winding path — right branch */}
+                <path d="M240 305 C 245 295, 270 285, 290 310 C 312 338, 340 370, 400 410" stroke="url(#hero-road)" strokeWidth="16" strokeLinecap="round" fill="none" opacity="0.7" />
+                {/* Path sparkle dots */}
+                <circle cx="195" cy="316" r="4" fill="#FFE060" opacity="0.9" />
+                <circle cx="172" cy="340" r="3.2" fill="#FFE060" opacity="0.8" />
+                <circle cx="148" cy="368" r="2.8" fill="#FFE060" opacity="0.7" />
+                <circle cx="285" cy="316" r="4" fill="#FFE060" opacity="0.9" />
+                <circle cx="308" cy="340" r="3.2" fill="#FFE060" opacity="0.8" />
+                <circle cx="332" cy="368" r="2.8" fill="#FFE060" opacity="0.7" />
+
+                {/* ── Light beams (behind lighthouse) ── */}
+                {/* Center beam */}
+                <path d="M238 165 L 150 0 L 330 0 Z" fill="url(#hero-beam-c)" opacity="0.9">
+                  <animate attributeName="opacity" values="0.9;1;0.75;1;0.9" dur="3s" repeatCount="indefinite" />
+                </path>
+                {/* Left wide beam */}
+                <path d="M233 168 L 0 60 L 80 0 Z" fill="url(#hero-beam-l)" opacity="0.75">
+                  <animate attributeName="opacity" values="0.75;0.9;0.6;0.9;0.75" dur="3.5s" repeatCount="indefinite" />
+                </path>
+                {/* Right wide beam */}
+                <path d="M247 168 L 480 60 L 400 0 Z" fill="url(#hero-beam-r)" opacity="0.75">
+                  <animate attributeName="opacity" values="0.75;0.6;0.9;0.6;0.75" dur="3.5s" repeatCount="indefinite" />
+                </path>
+                {/* Narrow accent beams */}
+                <path d="M236 166 L 60 30 L 100 20 Z" fill="#FFEF9A" opacity="0.45" />
+                <path d="M244 166 L 420 30 L 380 20 Z" fill="#FFEF9A" opacity="0.45" />
+
+                {/* ── Lighthouse ── */}
+                {/* Base platform */}
+                <ellipse cx="240" cy="308" rx="46" ry="12" fill="#1558A8" opacity="0.55" />
+                <rect x="200" y="298" width="80" height="16" rx="6" fill="#1E6EC8" />
+
+                {/* Main tower body */}
+                <path d="M214 298 L 266 298 L 256 168 L 224 168 Z" fill="url(#hero-tower)" />
+                {/* Tower right-side shading */}
+                <path d="M256 298 L 266 298 L 256 168 Z" fill="#B8D4F0" opacity="0.6" />
+                {/* Horizontal band stripes */}
+                <rect x="224" y="220" width="32" height="9" rx="1.5" fill="#4DA6F7" opacity="0.55" />
+                <rect x="225" y="248" width="30" height="7" rx="1.5" fill="#4DA6F7" opacity="0.45" />
+                <rect x="226" y="272" width="28" height="6" rx="1.5" fill="#4DA6F7" opacity="0.4" />
+                <rect x="225" y="192" width="30" height="6" rx="1.5" fill="#4DA6F7" opacity="0.35" />
+
+                {/* Lamp room housing */}
+                <rect x="220" y="158" width="40" height="18" rx="5" fill="#2368C4" />
+                <rect x="223" y="161" width="34" height="12" rx="3" fill="#FFF8D0" opacity="0.96" />
+
+                {/* Roof */}
+                <path d="M218 158 L 262 158 L 252 138 L 228 138 Z" fill="#1558A8" />
+                {/* Finial pole */}
+                <line x1="240" y1="138" x2="240" y2="126" stroke="#1558A8" strokeWidth="4" strokeLinecap="round" />
+                {/* Finial orb */}
+                <circle cx="240" cy="122" r="7" fill="#FFC845" filter="url(#hero-glow-filter)" />
+
+                {/* Balcony railing */}
+                <rect x="216" y="157" width="48" height="3" rx="1.5" fill="#EEF5FF" opacity="0.85" />
+
+                {/* Lantern glow halo */}
+                <ellipse cx="240" cy="167" rx="42" ry="20" fill="url(#hero-glow)" opacity="0.9">
+                  <animate attributeName="opacity" values="0.9;1;0.7;1;0.9" dur="2s" repeatCount="indefinite" />
+                  <animate attributeName="rx" values="42;50;42" dur="2s" repeatCount="indefinite" />
+                </ellipse>
+
+                {/* ── Sea wave lines ── */}
+                <path d="M30 322 Q 60 312, 90 322 T 150 322 T 210 322" stroke="#7BCEF5" strokeWidth="4" fill="none" opacity="0.6" strokeLinecap="round" />
+                <path d="M270 322 Q 300 312, 330 322 T 390 322 T 450 322" stroke="#7BCEF5" strokeWidth="4" fill="none" opacity="0.6" strokeLinecap="round" />
+                <path d="M10 345 Q 50 335, 90 345 T 170 345 T 250 345" stroke="#5BB8F0" strokeWidth="3" fill="none" opacity="0.4" strokeLinecap="round" />
+                <path d="M230 345 Q 290 335, 350 345 T 470 345" stroke="#5BB8F0" strokeWidth="3" fill="none" opacity="0.4" strokeLinecap="round" />
+
+                {/* ── Sparkle stars ── */}
+                {/* Big top-left */}
+                <g transform="translate(108, 72)">
+                  <path d="M0,-10 L2.4,-2.4 L10,0 L2.4,2.4 L0,10 L-2.4,2.4 L-10,0 L-2.4,-2.4 Z" fill="#FFD86A">
+                    <animateTransform attributeName="transform" type="scale" values="1;1.35;1" dur="2.2s" repeatCount="indefinite" additive="sum" />
+                  </path>
+                </g>
+                {/* Big top-right */}
+                <g transform="translate(372, 60)">
+                  <path d="M0,-9 L2.1,-2.1 L9,0 L2.1,2.1 L0,9 L-2.1,2.1 L-9,0 L-2.1,-2.1 Z" fill="#FFD86A">
+                    <animateTransform attributeName="transform" type="scale" values="1;1.4;1" dur="1.8s" repeatCount="indefinite" additive="sum" />
+                  </path>
+                </g>
+                {/* Top center small */}
+                <g transform="translate(240, 28)">
+                  <path d="M0,-6 L1.4,-1.4 L6,0 L1.4,1.4 L0,6 L-1.4,1.4 L-6,0 L-1.4,-1.4 Z" fill="#FFF0A0">
+                    <animateTransform attributeName="transform" type="scale" values="1;1.5;1" dur="2.8s" repeatCount="indefinite" additive="sum" />
+                  </path>
+                </g>
+                {/* Small extras */}
+                <g transform="translate(56, 148)">
+                  <path d="M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z" fill="#FFD86A" opacity="0.8">
+                    <animateTransform attributeName="transform" type="scale" values="1;1.3;1" dur="3.2s" repeatCount="indefinite" additive="sum" />
+                  </path>
+                </g>
+                <g transform="translate(424, 140)">
+                  <path d="M0,-5 L1.2,-1.2 L5,0 L1.2,1.2 L0,5 L-1.2,1.2 L-5,0 L-1.2,-1.2 Z" fill="#FFD86A" opacity="0.8">
+                    <animateTransform attributeName="transform" type="scale" values="1;1.3;1" dur="2.6s" repeatCount="indefinite" additive="sum" />
+                  </path>
+                </g>
+                <g transform="translate(155, 38)">
+                  <path d="M0,-4 L0.9,-0.9 L4,0 L0.9,0.9 L0,4 L-0.9,0.9 L-4,0 L-0.9,-0.9 Z" fill="#FFE090" opacity="0.7">
+                    <animateTransform attributeName="transform" type="scale" values="1;1.4;1" dur="3.8s" repeatCount="indefinite" additive="sum" />
+                  </path>
+                </g>
+                <g transform="translate(325, 44)">
+                  <path d="M0,-4 L0.9,-0.9 L4,0 L0.9,0.9 L0,4 L-0.9,0.9 L-4,0 L-0.9,-0.9 Z" fill="#FFE090" opacity="0.7">
+                    <animateTransform attributeName="transform" type="scale" values="1;1.4;1" dur="3.1s" repeatCount="indefinite" additive="sum" />
+                  </path>
+                </g>
               </svg>
 
               {/* Floating Cards */}
-              <div className="absolute top-12 -left-6 bg-white p-3 rounded-xl shadow-lg border animate-bounce" style={{animationDuration: '3s'}}>
-                <div className="text-xs font-bold text-primary mb-1">AI 测评分析</div>
-                <div className="flex gap-1">
-                  <div className="w-12 h-1 bg-primary/20 rounded-full"><div className="w-3/4 h-full bg-primary rounded-full" /></div>
-                  <div className="w-12 h-1 bg-brand-teal/20 rounded-full"><div className="w-full h-full bg-brand-teal rounded-full" /></div>
+              <div className="absolute top-8 -left-4 bg-white/95 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-blue-100 animate-bounce" style={{animationDuration: '3s'}}>
+                <div className="text-xs font-bold text-primary mb-1.5">AI 测评分析</div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] text-muted-foreground w-8">执行力</span>
+                    <div className="w-16 h-1.5 bg-primary/20 rounded-full"><div className="w-4/5 h-full bg-primary rounded-full" /></div>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] text-muted-foreground w-8">创新力</span>
+                    <div className="w-16 h-1.5 bg-amber-200 rounded-full"><div className="w-3/4 h-full bg-amber-400 rounded-full" /></div>
+                  </div>
                 </div>
               </div>
 
-              <div className="absolute bottom-24 -right-4 bg-white p-3 rounded-xl shadow-lg border flex items-center gap-2 animate-bounce" style={{animationDuration: '4s', animationDelay: '1s'}}>
-                <CheckCircle2 size={16} className="text-green-500" />
-                <span className="text-xs font-medium">找到行动方向</span>
+              <div className="absolute bottom-20 -right-4 bg-white/95 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-green-100 flex items-center gap-2 animate-bounce" style={{animationDuration: '4s', animationDelay: '1s'}}>
+                <CheckCircle2 size={16} className="text-green-500 shrink-0" />
+                <span className="text-xs font-medium text-gray-700">找到行动方向</span>
               </div>
             </div>
           </div>
