@@ -1,14 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Compass, Target, Map, ArrowUpRight, Play, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Compass, Target, Map, ArrowUpRight, Play, CheckCircle2, Quote, Sparkles, Heart } from 'lucide-react';
 import { LighthouseLogo } from '@/components/LighthouseLogo';
 import { useUserStore } from '@/store/useUserStore';
 import { useLocation } from 'wouter';
 
+const WORRIES = [
+  '室友都知道要考研了，就我还没想好……',
+  '投了好多简历，一个面试都没有',
+  '家里让我考公，但我真的不知道自己适不适合',
+  '大三了，感觉每天都在焦虑但什么也没做',
+  '不知道自己的优势是什么，简历不知道怎么写',
+  '出国、考研、工作，选哪个都感觉在赌',
+  '看到别人都很厉害，我是不是已经晚了？',
+];
+
 export default function LandingPage() {
   const { loadDemoData } = useUserStore();
   const [, setLocation] = useLocation();
+  const [worryIdx, setWorryIdx] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setWorryIdx(i => (i + 1) % WORRIES.length);
+        setFade(true);
+      }, 400);
+    }, 3200);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleGuestDemo = () => {
     loadDemoData();
@@ -55,28 +78,42 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              专属中国大学生的AI成长引擎
+              专属中国大学生的 AI 成长引擎
             </div>
+
+            {/* Rotating worry strip */}
+            <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 text-left max-w-lg mx-auto md:mx-0">
+              <Heart size={16} className="text-amber-500 mt-0.5 shrink-0" />
+              <p
+                className="text-sm text-amber-800 leading-relaxed transition-opacity duration-400"
+                style={{ opacity: fade ? 1 : 0 }}
+              >
+                「{WORRIES[worryIdx]}」
+              </p>
+            </div>
+            <p className="text-xs text-muted-foreground -mt-5 text-center md:text-left">↑ 这些声音，我们都听见了</p>
             
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-foreground leading-[1.1]">
-              在迷茫中找准 <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-brand-teal to-primary">你的航向</span>
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1]">
+              迷茫很正常，<br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-brand-teal to-primary">找到方向才是关键</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto md:mx-0">
-              打破千篇一律的职业规划。通过深度对话与科学测评，为你生成独一无二的成长画像，规划最适合你的大学发展路径。
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto md:mx-0">
+              不是又一份千篇一律的测评表。灯塔计划先听你说话，再帮你看清楚自己——你适合什么路，下一步该怎么走。
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start pt-4">
+            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start pt-2">
               <Button size="lg" className="rounded-full px-8 h-14 text-base gap-2 w-full sm:w-auto shadow-lg shadow-primary/20" onClick={() => setLocation('/app')}>
                 开始免费探索 <ArrowRight size={18} />
               </Button>
               <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-base gap-2 w-full sm:w-auto border-border bg-white" onClick={handleGuestDemo}>
-                <Play size={18} className="text-brand-gold" /> 查看演示报告
+                <Play size={18} className="text-brand-gold" /> 先看一份示例报告
               </Button>
             </div>
+
+            <p className="text-xs text-muted-foreground text-center md:text-left">无需注册，3 分钟了解你的专属成长方向</p>
             
-            <div className="flex items-center gap-4 justify-center md:justify-start text-sm text-muted-foreground pt-4">
+            <div className="flex items-center gap-4 justify-center md:justify-start text-sm text-muted-foreground">
               <div className="flex -space-x-2">
                 {[1,2,3,4].map(i => (
                   <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-muted flex items-center justify-center text-xs overflow-hidden">
@@ -84,7 +121,7 @@ export default function LandingPage() {
                   </div>
                 ))}
               </div>
-              <p>已有 <span className="font-bold text-foreground">12,400+</span> 名大学生在这里找到方向</p>
+              <p>已有 <span className="font-bold text-foreground">12,400+</span> 名同学在这里找到了方向</p>
             </div>
           </div>
           
@@ -367,38 +404,72 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Pain-point resonance strip */}
+      <section className="py-14 bg-gradient-to-r from-blue-50 via-white to-teal-50 border-y">
+        <div className="max-w-5xl mx-auto px-6">
+          <p className="text-center text-sm text-muted-foreground mb-8 font-medium tracking-wide uppercase">很多同学在灯塔计划前，都有过这些感受</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { emoji: '😮‍💨', text: '大三了，每天焦虑但不知道从哪里下手' },
+              { emoji: '🤔', text: '考研还是工作？家里的想法跟我不一样' },
+              { emoji: '😞', text: '简历投了几十份，感觉自己什么都不会' },
+              { emoji: '😶', text: '不清楚自己的优势，也不知道喜欢什么' },
+              { emoji: '😰', text: '室友都有规划了，就我还在原地踏步' },
+              { emoji: '🌀', text: '每个方向都看起来可以，却又感觉都不对' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-3 bg-white rounded-xl p-4 border border-blue-100 shadow-sm">
+                <span className="text-xl shrink-0">{item.emoji}</span>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-center mt-8 text-primary font-semibold text-base">你不是一个人。迷茫是成长的起点，灯塔帮你把它变成方向。</p>
+        </div>
+      </section>
+
       {/* How it works */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">三步清晰规划你的大学生活</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">不只是冰冷的测试题，而是一次深度的自我对话。</p>
+            <p className="text-sm font-medium text-primary mb-3 tracking-wide uppercase">怎么用</p>
+            <h2 className="text-3xl font-bold mb-4">三步，从迷茫到清晰</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">不是填表，不是刷题。是一次真正关于你自己的对话。</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 icon: <Compass size={32} className="text-primary" />,
-                title: "1. 深度对话引航",
-                desc: "AI引航员通过自然的聊天，了解你的困惑、兴趣和现状，为你建立基础档案。"
+                step: '第一步',
+                title: "先聊聊你现在的状态",
+                desc: "AI 引航员不急着给建议，先听你说——你在困惑什么，你在意什么，你现在的生活是什么样的。没有标准答案，说真话就好。",
+                tag: '约 5 分钟'
               },
               {
                 icon: <Target size={32} className="text-brand-gold" />,
-                title: "2. 科学成长测评",
-                desc: "基于对话结果推荐专属测评，多维度解析你的能力雷达图，生成深度成长画像。"
+                step: '第二步',
+                title: "了解真实的自己",
+                desc: "根据你的对话，推荐一套专属测评。不是性格标签，是真正有用的能力画像：你的优势在哪，你适合什么节奏，你在意什么。",
+                tag: '约 10 分钟'
               },
               {
                 icon: <Map size={32} className="text-brand-teal" />,
-                title: "3. 专属路径规划",
-                desc: "对比不同出路（考研/就业/考公），生成具体的学期行动计划并拆解为可执行任务。"
+                step: '第三步',
+                title: "拿到你的专属行动路线",
+                desc: "对比考研、就业、考公、出国等路径，算出你的匹配度，再把计划拆成本学期、下学期的具体行动——不是泛泛的建议，是能执行的清单。",
+                tag: '终身可用'
               }
             ].map((step, i) => (
-              <div key={i} className="bg-white p-8 rounded-2xl border shadow-sm hover:shadow-md transition-shadow relative">
-                <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mb-6">
-                  {step.icon}
+              <div key={i} className="bg-white p-8 rounded-2xl border shadow-sm hover:shadow-md transition-shadow relative group">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    {step.icon}
+                  </div>
+                  <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-muted text-muted-foreground">{step.tag}</span>
                 </div>
+                <p className="text-xs font-semibold text-primary/60 mb-1 tracking-wide uppercase">{step.step}</p>
                 <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
+                <p className="text-muted-foreground leading-relaxed text-sm">{step.desc}</p>
                 {i < 2 && (
                   <ArrowUpRight className="hidden md:block absolute top-1/2 -right-6 text-muted-foreground/30 h-8 w-8 -translate-y-1/2" />
                 )}
@@ -408,27 +479,100 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section id="testimonials" className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-14">
+            <p className="text-sm font-medium text-primary mb-3 tracking-wide uppercase">真实反馈</p>
+            <h2 className="text-3xl font-bold mb-4">他们也曾和你一样迷茫</h2>
+            <p className="text-muted-foreground">来自不同院校和专业的同学，在这里找到了属于自己的答案。</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                avatar: 5,
+                name: '张同学',
+                school: '某 985 大学 · 大三',
+                major: '计算机专业',
+                text: '做完测评才发现，我其实不排斥和人打交道，我以为自己只能搞技术。现在确定了走产品方向，整个人踏实多了。',
+                highlight: '从"不知道要做什么"到有了明确方向',
+              },
+              {
+                avatar: 8,
+                name: '李同学',
+                school: '某双非院校 · 大四',
+                major: '汉语言文学',
+                text: '家里一直催着考公，我自己其实想试试新媒体。引航员帮我把两条路都分析了一遍，我第一次觉得自己的想法是被认真对待的。',
+                highlight: '找到了跟家人沟通的底气',
+              },
+              {
+                avatar: 12,
+                name: '王同学',
+                school: '某 211 大学 · 大二',
+                major: '经济学专业',
+                text: '我很早就在用，大二就把大学四年的节奏大概规划出来了。不是死板的计划，是知道自己每个阶段该做什么、不慌。',
+                highlight: '大二开始就有了清晰的四年规划',
+              },
+            ].map((t, i) => (
+              <div key={i} className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 border border-blue-100 flex flex-col gap-4">
+                <Quote size={20} className="text-primary/30" />
+                <p className="text-sm text-foreground leading-relaxed flex-1">"{t.text}"</p>
+                <div className="pt-2 border-t border-blue-100">
+                  <p className="text-xs font-semibold text-primary mb-1">✦ {t.highlight}</p>
+                  <div className="flex items-center gap-3 mt-2">
+                    <div className="w-9 h-9 rounded-full bg-muted border-2 border-white shadow-sm overflow-hidden">
+                      <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${t.avatar}&backgroundColor=dbeafe`} alt={t.name} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">{t.name}</p>
+                      <p className="text-xs text-muted-foreground">{t.school} · {t.major}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary/5" />
-        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-6">准备好点亮你的灯塔了吗？</h2>
-          <p className="text-xl text-muted-foreground mb-10">
-            已有超过1万名大学生在这里找到了属于自己的方向。加入他们，开始你的蜕变之旅。
+      <section className="py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-teal-50" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-100 text-amber-700 text-sm font-medium mb-6">
+            <Sparkles size={14} />
+            完全免费，无需下载
+          </div>
+          <h2 className="text-4xl font-bold mb-5 leading-tight">
+            你现在的迷茫，<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-brand-teal">可以是找到方向的起点</span>
+          </h2>
+          <p className="text-lg text-muted-foreground mb-4 max-w-xl mx-auto leading-relaxed">
+            不需要你"想清楚了再来"——带着你现在所有的疑问来就好。灯塔就是为了在你最模糊的时候，帮你看见前面的路。
           </p>
-          <Button size="lg" className="rounded-full px-12 h-14 text-lg gap-2 shadow-xl shadow-primary/25" onClick={() => setLocation('/app')}>
-            立即免费加入 <ArrowRight size={20} />
-          </Button>
+          <p className="text-sm text-muted-foreground mb-10">以灯塔之光 · 见未来之路</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="rounded-full px-12 h-14 text-lg gap-2 shadow-xl shadow-primary/25" onClick={() => setLocation('/app')}>
+              现在就开始 <ArrowRight size={20} />
+            </Button>
+            <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-base gap-2 border-blue-200 bg-white" onClick={handleGuestDemo}>
+              <Play size={16} className="text-brand-gold" /> 先看示例
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground mt-6">无需注册 · 3 分钟完成首次引航 · 数据仅保存在你的设备</p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-white py-12 text-center text-muted-foreground">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <LighthouseLogo size={20} className="opacity-50" />
-          <span className="font-semibold">灯塔计划 Lighthouse Plan</span>
+      <footer className="border-t bg-white py-12">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground text-sm">
+          <div className="flex items-center gap-2">
+            <LighthouseLogo size={22} showText />
+          </div>
+          <p>以灯塔之光 · 见未来之路</p>
+          <p>© 2024 灯塔计划 · 专为中国大学生打造</p>
         </div>
-        <p className="text-sm">© 2024 灯塔计划. All rights reserved. 专为中国大学生打造的AI成长引擎。</p>
       </footer>
     </div>
   );
