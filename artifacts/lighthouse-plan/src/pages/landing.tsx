@@ -179,22 +179,86 @@ export default function LandingPage() {
                 <circle cx="308" cy="340" r="3.2" fill="#FFE060" opacity="0.8" />
                 <circle cx="332" cy="368" r="2.8" fill="#FFE060" opacity="0.7" />
 
-                {/* ── Light beams (behind lighthouse) ── */}
-                {/* Center beam */}
-                <path d="M238 165 L 150 0 L 330 0 Z" fill="url(#hero-beam-c)" opacity="0.9">
-                  <animate attributeName="opacity" values="0.9;1;0.75;1;0.9" dur="3s" repeatCount="indefinite" />
-                </path>
-                {/* Left wide beam */}
-                <path d="M233 168 L 0 60 L 80 0 Z" fill="url(#hero-beam-l)" opacity="0.75">
-                  <animate attributeName="opacity" values="0.75;0.9;0.6;0.9;0.75" dur="3.5s" repeatCount="indefinite" />
-                </path>
-                {/* Right wide beam */}
-                <path d="M247 168 L 480 60 L 400 0 Z" fill="url(#hero-beam-r)" opacity="0.75">
-                  <animate attributeName="opacity" values="0.75;0.6;0.9;0.6;0.75" dur="3.5s" repeatCount="indefinite" />
-                </path>
-                {/* Narrow accent beams */}
-                <path d="M236 166 L 60 30 L 100 20 Z" fill="#FFEF9A" opacity="0.45" />
-                <path d="M244 166 L 420 30 L 380 20 Z" fill="#FFEF9A" opacity="0.45" />
+                {/* ── CSS keyframe animations ── */}
+                <style>{`
+                  @keyframes lh-sweep {
+                    0%   { transform: rotate(-52deg); }
+                    45%  { transform: rotate(52deg);  }
+                    50%  { transform: rotate(52deg);  }
+                    95%  { transform: rotate(-52deg); }
+                    100% { transform: rotate(-52deg); }
+                  }
+                  @keyframes lh-sweep2 {
+                    0%   { transform: rotate(-52deg); opacity: 0.55; }
+                    20%  { opacity: 0.25; }
+                    45%  { transform: rotate(52deg); opacity: 0.55; }
+                    50%  { transform: rotate(52deg); opacity: 0.55; }
+                    70%  { opacity: 0.25; }
+                    95%  { transform: rotate(-52deg); opacity: 0.55; }
+                    100% { transform: rotate(-52deg); opacity: 0.55; }
+                  }
+                  @keyframes lh-pulse {
+                    0%,100% { opacity: 0.85; r: 18; }
+                    50%     { opacity: 1;    r: 26; }
+                  }
+                  @keyframes lh-ring1 {
+                    0%   { r: 14; opacity: 0.9; }
+                    100% { r: 72; opacity: 0;   }
+                  }
+                  @keyframes lh-ring2 {
+                    0%   { r: 14; opacity: 0.7; }
+                    100% { r: 72; opacity: 0;   }
+                  }
+                  @keyframes lh-ring3 {
+                    0%   { r: 14; opacity: 0.5; }
+                    100% { r: 72; opacity: 0;   }
+                  }
+                  @keyframes lh-reflect {
+                    0%   { transform: rotate(-52deg); opacity: 0.3; }
+                    45%  { transform: rotate(52deg);  opacity: 0.3; }
+                    50%  { transform: rotate(52deg);  opacity: 0.3; }
+                    95%  { transform: rotate(-52deg); opacity: 0.3; }
+                    100% { transform: rotate(-52deg); opacity: 0.3; }
+                  }
+                `}</style>
+
+                {/* ── Sweeping light beams (pivot = lamp position 240, 167) ── */}
+
+                {/* Outer soft glow cone — sweeps with main beam */}
+                <g style={{ transformOrigin: '240px 167px', animation: 'lh-sweep2 5s ease-in-out infinite' }}>
+                  <path d="M240 167 L 30 -30 L 450 -30 Z"
+                    fill="url(#hero-beam-c)" opacity="0.38" />
+                </g>
+
+                {/* Main sharp beam */}
+                <g style={{ transformOrigin: '240px 167px', animation: 'lh-sweep 5s ease-in-out infinite' }}>
+                  {/* Wide cone */}
+                  <path d="M240 167 L 110 -10 L 370 -10 Z"
+                    fill="url(#hero-beam-c)" opacity="0.82" />
+                  {/* Bright core ray */}
+                  <path d="M237 166 L 218 -10 L 262 -10 Z"
+                    fill="#FFFEF0" opacity="0.95" />
+                </g>
+
+                {/* Trailing ghost beam (slight delay offset) */}
+                <g style={{ transformOrigin: '240px 167px', animation: 'lh-sweep 5s ease-in-out infinite', animationDelay: '-0.35s' }}>
+                  <path d="M240 167 L 130 0 L 350 0 Z"
+                    fill="url(#hero-beam-c)" opacity="0.28" />
+                </g>
+
+                {/* Water surface reflection beam */}
+                <g style={{ transformOrigin: '240px 310px', animation: 'lh-reflect 5s ease-in-out infinite' }}>
+                  <path d="M240 310 L 80 480 L 400 480 Z"
+                    fill="url(#hero-beam-c)" opacity="0.22" />
+                </g>
+
+                {/* ── Pulsing halo rings from lantern ── */}
+                <circle cx="240" cy="167" r="14" fill="none" stroke="#FFE060" strokeWidth="3"
+                  style={{ animation: 'lh-ring1 2.4s ease-out infinite' }} />
+                <circle cx="240" cy="167" r="14" fill="none" stroke="#FFE060" strokeWidth="2"
+                  style={{ animation: 'lh-ring2 2.4s ease-out infinite', animationDelay: '0.8s' }} />
+                <circle cx="240" cy="167" r="14" fill="none" stroke="#FFC845" strokeWidth="1.5"
+                  style={{ animation: 'lh-ring3 2.4s ease-out infinite', animationDelay: '1.6s' }} />
 
                 {/* ── Lighthouse ── */}
                 {/* Base platform */}
